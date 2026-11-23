@@ -424,3 +424,10 @@ FodyWeavers.xsd
 
 # Official VS Code C# Dev Kit Extension exclusion
 #*.lscache
+
+# Jupyter
+*.ipynb_checkpoints
+
+# resources file
+*.csv
+*.zip
