@@ -14,7 +14,7 @@ def traitement(path):
 
 
 def main():
-    path = Path("resources/graph1")
+    path = Path("../resources/graph1")
     traitement(path)
     
 
