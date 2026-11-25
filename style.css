@@ -240,42 +240,50 @@ h2 {
 }
 
 #consommation .chart svg,
-#graphique-prix-revenus svg {
+#graphique-prix-revenus svg,
+#graphique-importations svg {
   display: block;
   width: 100%;
 }
 
 #consommation .chart text,
-#graphique-prix-revenus text {
+#graphique-prix-revenus text,
+#graphique-importations text {
   fill: var(--muted);
   font-family: Arial, Helvetica, sans-serif;
   font-variant-numeric: tabular-nums;
 }
 
 #consommation .chart .grid .domain,
-#graphique-prix-revenus .grid .domain {
+#graphique-prix-revenus .grid .domain,
+#graphique-importations .grid .domain {
   display: none;
 }
 
 #consommation .chart .domain,
 #consommation .chart .tick line,
 #graphique-prix-revenus .domain,
-#graphique-prix-revenus .tick line {
+#graphique-prix-revenus .tick line,
+#graphique-importations .domain,
+#graphique-importations .tick line {
   stroke: #a69f99;
 }
 
 #consommation .chart .grid .tick line,
-#graphique-prix-revenus .grid .tick line {
+#graphique-prix-revenus .grid .tick line,
+#graphique-importations .grid .tick line {
   stroke: #e6e1dd;
 }
 
 #consommation .chart .data-point,
-#graphique-prix-revenus .barre {
+#graphique-prix-revenus .barre,
+#graphique-importations .barre {
   cursor: pointer;
 }
 
 #consommation .chart .data-point:hover,
-#graphique-prix-revenus .barre:hover {
+#graphique-prix-revenus .barre:hover,
+#graphique-importations .barre:hover {
   stroke: var(--ink);
 }
 
