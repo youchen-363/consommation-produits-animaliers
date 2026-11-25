@@ -1,0 +1,48 @@
+#importations .controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 18px 24px;
+  margin-bottom: 18px;
+}
+
+#importations .period {
+  width: 210px;
+  max-width: 100%;
+}
+
+#importations .period-slider {
+  --debut: 0%;
+  --fin: 100%;
+}
+
+#importations #graphique-importations {
+  padding: 24px 16px 36px 56px;
+}
+
+#importations #graphique-importations svg {
+  overflow: visible;
+}
+
+#importations #graphique-importations text {
+  font-size: 13px;
+}
+
+#importations #graphique-importations .valeur {
+  fill: var(--ink);
+  font-weight: bold;
+}
+
+#importations .barre:hover {
+  stroke-width: 1.5;
+}
+
+#importations figcaption {
+  margin: 18px 0;
+  color: var(--muted);
+}
+
+#importations figcaption p {
+  margin: 0 0 6px;
+}

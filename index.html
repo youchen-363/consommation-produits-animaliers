@@ -8,10 +8,17 @@
     <link rel="stylesheet" href="header.css" />
     <link rel="stylesheet" href="consommation.css" />
     <link rel="stylesheet" href="prix-revenus.css" />
+    <link rel="stylesheet" href="importations.css" />
     <script src="vendor/d3.js" defer></script>
+    <script src="vendor/topojson-client.min.js" defer></script>
+    <script src="vendor/countries-50m.js" defer></script>
+    <script src="vendor/legend.js" defer></script>
+    <script src="data/importations.js" defer></script>
     <script src="data.js" defer></script>
     <script src="consommation.js" defer></script>
     <script src="prix-revenus.js" defer></script>
+    <script src="importations.js" defer></script>
+    <script src="carteImportations.js" defer></script>
     <script src="app.js" defer></script>
   </head>
   <body>
@@ -120,7 +127,33 @@
           id="importations"
           class="view"
           data-message="Et les importations ? Peuvent-elles éclairer l'évolution des prix de la viande ?"
-        ></section>
+        >
+          <div class="view-heading">
+            <h2>Quelle part de la viande consommée en France est importée ?</h2>
+            <p class="description">Importations rapportées à l'utilisation intérieure, en tonnes équivalent-carcasse</p>
+          </div>
+          <div class="view-body">
+            <div class="controls">
+              <fieldset class="period">
+                <legend>Année</legend>
+                <output id="import-periode" for="import-annee"></output>
+                <div class="period-slider">
+                  <input type="range" id="import-annee" title="Année affichée" />
+                </div>
+              </fieldset>
+            </div>
+            <figure>
+              <div id="graphique-importations"></div>
+              <div id="carte-importations"></div>
+              <figcaption>
+                <p>Survolez une barre pour lire le taux d'importation de la viande.</p>
+                <p>Source : Agreste, bilans d'approvisionnement (importations / utilisation intérieure, en tonnes équivalent-carcasse).</p>
+                <p>*Viande ovine : depuis 2021, les importations incluent de la viande britannique réexportée, ce qui gonfle fortement le taux</p>
+              </figcaption>
+            </figure>
+          </div>
+          <div id="infobulle-importations" class="tooltip" hidden></div>
+        </section>
       </div>
 
       <section id="rapport"></section>
