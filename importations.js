@@ -154,6 +154,10 @@ const initialiserImportations = async () => {
       .attr("width", largeurBarre)
       .attr("height", (observation) => hauteur - y(observation.taux))
       .attr("fill", (observation) => observation.couleur)
+      .style("cursor", "pointer")
+      .on("click", (evenement, observation) => {
+        document.dispatchEvent(new CustomEvent("choix-viande", { detail: observation }));
+      })
       .on("pointerenter pointermove", afficherInfobulle)
       .on("pointerleave", masquerInfobulle);
 
