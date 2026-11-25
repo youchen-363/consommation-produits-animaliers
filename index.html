@@ -7,9 +7,11 @@
     <link rel="stylesheet" href="style.css" />
     <link rel="stylesheet" href="header.css" />
     <link rel="stylesheet" href="consommation.css" />
+    <link rel="stylesheet" href="prix-revenus.css" />
     <script src="vendor/d3.js" defer></script>
     <script src="data.js" defer></script>
     <script src="consommation.js" defer></script>
+    <script src="prix-revenus.js" defer></script>
     <script src="app.js" defer></script>
   </head>
   <body>
@@ -85,7 +87,35 @@
           id="prix-revenus"
           class="view"
           data-message="Et côté budget ? Regardons comment les prix et les revenus accompagnent ces évolutions."
-        ></section>
+        >
+          <div class="view-heading">
+            <h2>Les prix de la viande augmentent-ils plus vite que les revenus ?</h2>
+          </div>
+          <div class="view-body">
+            <div class="controls">
+              <ul id="legende-prix">
+                <li><span class="revenus"></span>Le revenu augmente plus vite</li>
+                <li><span class="prix"></span>Les prix augmentent plus vite</li>
+              </ul>
+              <fieldset class="period">
+                <legend>Période</legend>
+                <output id="prix-periode" for="prix-debut prix-fin"></output>
+                <div class="period-slider">
+                  <input type="range" id="prix-debut" title="Première année" />
+                  <input type="range" id="prix-fin" title="Dernière année" />
+                </div>
+              </fieldset>
+            </div>
+            <figure>
+              <div id="graphique-prix-revenus"></div>
+              <figcaption>
+                À gauche de zéro le revenu augmente plus vite, à droite, les prix augmentent plus vite. À zéro, les deux taux sont égaux.
+                Survolez une barre pour lire les deux taux et leur écart.
+              </figcaption>
+            </figure>
+          </div>
+          <div id="infobulle-prix" class="tooltip" hidden></div>
+        </section>
         <section
           id="importations"
           class="view"

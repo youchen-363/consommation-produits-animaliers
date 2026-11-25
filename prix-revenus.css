@@ -1,0 +1,73 @@
+#prix-revenus .controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px 24px;
+  margin-bottom: 18px;
+}
+
+#legende-prix {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 24px;
+  
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 0.875rem;
+}
+
+#legende-prix li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+#legende-prix span {
+  width: 24px;
+  height: 12px;
+}
+
+#prix-revenus .prix { 
+  fill: var(--accent); background: var(--accent); 
+}
+#prix-revenus .revenus { 
+  fill: #4477aa; background: #4477aa; 
+}
+#prix-revenus .egalite { 
+  fill: var(--muted); 
+}
+
+#prix-revenus .period {
+  width: 210px;
+  max-width: 100%;
+}
+
+#graphique-prix-revenus {
+  padding: 12px 16px 36px 46px;
+}
+
+#graphique-prix-revenus svg {
+  overflow: visible;
+}
+
+#graphique-prix-revenus text {
+  font-size: 12px;
+  line-height: normal;
+}
+
+#graphique-prix-revenus .annees .domain { 
+  display: none; 
+}
+#graphique-prix-revenus .zero { 
+  stroke: var(--ink); stroke-width: 1.5; 
+}
+#graphique-prix-revenus .barre:hover { 
+  stroke-width: 1.5; 
+}
+
+#prix-revenus figcaption {
+  margin: 18px 0;
+  color: var(--muted);
+}

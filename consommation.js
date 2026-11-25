@@ -127,7 +127,7 @@ const initialiserConsommation = async () => {
       barrePeriode.classList.toggle("same-year", curseurDebut.value === curseurFin.value);
     };
 
-    // input se déclenche pendant le déplacement : le graphe se met à jour tout de suite
+    // 'input' se déclenche pendant le déplacement du slider alors que 'change' qu'à la fin
     curseurDebut.addEventListener("input", () => {
       curseurDebut.value = Math.min(Number(curseurDebut.value), Number(curseurFin.value));
       actualiserPeriode();
@@ -147,7 +147,6 @@ const initialiserConsommation = async () => {
   // === Tooltip au hover ===
   // ========================
 
-  // D3 transmet directement l'événement et l'observation associée au point
   function afficherInfobulle(evenement, observation) {
     const quantiteFormatee = formatNombre.format(observation.quantite);
     infobulle.textContent = `(${observation.annee}) ${observation.nomCategorie} : ${quantiteFormatee}kg équivalent-carcasse par habitant et par an`;
@@ -249,7 +248,6 @@ const initialiserConsommation = async () => {
       return observation.quantite;
     });
 
-    // l'axe vertical est inversé : les grandes quantités se trouvent en haut
     const positionConsommation = d3
       .scaleLinear()
       .domain([0, quantiteMaximale])

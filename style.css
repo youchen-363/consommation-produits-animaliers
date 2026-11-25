@@ -141,3 +141,159 @@ h2 {
 .view-body {
   padding: 20px 24px 0;
 }
+
+.view fieldset {
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.view legend {
+  margin-bottom: 9px;
+  padding: 0;
+  font-weight: bold;
+}
+
+.view .period output {
+  display: block;
+  font-variant-numeric: tabular-nums;
+}
+
+.period-slider {
+  position: relative;
+  height: 32px;
+}
+
+.period-slider::before {
+  content: "";
+  position: absolute;
+  top: 14px;
+  right: 10px;
+  left: 10px;
+  height: 4px;
+  background: linear-gradient(
+    to right,
+    var(--border) var(--debut),
+    var(--accent) var(--debut),
+    var(--accent) var(--fin),
+    var(--border) var(--fin)
+  );
+}
+
+.period-slider input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 32px;
+  margin: 0;
+  appearance: none;
+  background: transparent;
+  pointer-events: none;
+}
+
+/* si on fait pas ca les deux sliders se rentrent dedans */
+.period-slider.same-year input:first-child {
+  --decalage: -10px;
+}
+.period-slider.same-year input:last-child {
+  --decalage: 10px;
+}
+
+.period-slider input::-webkit-slider-runnable-track {
+  height: 4px;
+  background: transparent;
+}
+
+.period-slider input::-webkit-slider-thumb {
+  width: 20px;
+  height: 20px;
+  margin-top: -8px;
+  border: 1px solid var(--accent);
+  border-radius: 50%;
+  appearance: none;
+  background: white;
+  pointer-events: auto;
+  cursor: grab;
+  transform: translateX(var(--decalage, 0px));
+}
+
+.period-slider input::-moz-range-track {
+  height: 4px;
+  background: transparent;
+}
+
+.period-slider input::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border: 1px solid var(--accent);
+  border-radius: 50%;
+  background: white;
+  pointer-events: auto;
+  cursor: grab;
+  transform: translateX(var(--decalage, 0px));
+}
+
+
+.view figure {
+  margin: 0;
+}
+
+#consommation .chart svg,
+#graphique-prix-revenus svg {
+  display: block;
+  width: 100%;
+}
+
+#consommation .chart text,
+#graphique-prix-revenus text {
+  fill: var(--muted);
+  font-family: Arial, Helvetica, sans-serif;
+  font-variant-numeric: tabular-nums;
+}
+
+#consommation .chart .grid .domain,
+#graphique-prix-revenus .grid .domain {
+  display: none;
+}
+
+#consommation .chart .domain,
+#consommation .chart .tick line,
+#graphique-prix-revenus .domain,
+#graphique-prix-revenus .tick line {
+  stroke: #a69f99;
+}
+
+#consommation .chart .grid .tick line,
+#graphique-prix-revenus .grid .tick line {
+  stroke: #e6e1dd;
+}
+
+#consommation .chart .data-point,
+#graphique-prix-revenus .barre {
+  cursor: pointer;
+}
+
+#consommation .chart .data-point:hover,
+#graphique-prix-revenus .barre:hover {
+  stroke: var(--ink);
+}
+
+.view figcaption {
+  font-size: 0.8rem;
+  font-style: italic;
+}
+
+.view .tooltip {
+  position: fixed;
+  max-width: min(360px, calc(100vw - 24px));
+  padding: 10px 14px;
+  border: 1px solid var(--border);
+  border-top: 3px solid var(--accent);
+  border-radius: 4px;
+  background: white;
+  font-size: 0.8rem;
+  pointer-events: none;
+  
+  z-index: 20;
+}
