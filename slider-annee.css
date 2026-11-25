@@ -1,0 +1,92 @@
+.slider-annee {
+  width: 600px;
+  max-width: 100%;
+}
+
+.slider-annee .annee-lecture {
+  display: grid;
+  grid-template-columns: 80px 32px minmax(0, 1fr) 32px;
+  align-items: center;
+  gap: 10px;
+}
+
+.slider-annee [data-lecture] {
+  min-height: 32px;
+  padding: 3px 10px;
+  border: 1px solid var(--accent);
+  border-radius: 4px;
+  color: white;
+  background: var(--accent);
+  font: inherit;
+  font-size: 13px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.slider-annee .annee-pas {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  padding: 6px;
+  border: 0;
+  border-radius: 50%;
+  background: var(--accent);
+  cursor: pointer;
+}
+
+.slider-annee .annee-pas img {
+  display: block;
+  width: 20px;
+  height: 20px;
+  filter: brightness(0) invert(1);
+}
+
+.slider-annee .annee-lecture button:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
+.slider-annee .annee-lecture button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.slider-annee .annee-barre {
+  position: relative;
+  min-width: 0;
+  padding: 24px 0;
+}
+
+.slider-annee .annees-bornes {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  display: flex;
+  justify-content: space-between;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 20px;
+  font-variant-numeric: tabular-nums;
+}
+
+.slider-annee .period-slider {
+  --debut: 0%;
+  --fin: 0%;
+  --progression: 0;
+}
+
+.slider-annee output {
+  position: absolute;
+  top: 32px;
+
+  left: calc(10px + (100% - 20px) * var(--progression));
+  transform: translateX(-50%);
+
+  color: var(--accent);
+  font-size: 13px;
+  font-weight: bold;
+  line-height: 20px;
+  pointer-events: none;
+}
