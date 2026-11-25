@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Viande en France</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="header.css" />
+    <link rel="stylesheet" href="consommation.css" />
+    <script src="vendor/d3.js" defer></script>
+    <script src="data.js" defer></script>
+    <script src="consommation.js" defer></script>
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="header-inner">
+        <a class="project-name" href="#accueil">Viande en France</a>
+        <nav>
+          <a href="#accueil" class="active">Accueil</a>
+          <a href="#rapport">Rapport</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <div id="exploration">
+        <div class="page-heading">
+          <h1>La <span>viande</span> en chiffres</h1>
+          <div class="page-story">
+            <img src="assets/quote-svgrepo.svg" alt="" />
+            <p id="texte-rubrique"></p>
+          </div>
+        </div>
+        <nav class="view-nav">
+          <a href="#consommation" class="active">
+            <span>01</span> Consommation
+          </a>
+          <a href="#prix-revenus">
+            <span>02</span> Prix et revenus
+          </a>
+          <a href="#importations">
+            <span>03</span> Importations
+          </a>
+        </nav>
+
+        <section
+          id="consommation"
+          class="view"
+          data-message="Nos habitudes changent, mais consommons plus ou moins de viandes chaque année ?"
+        >
+          <div class="view-heading">
+            <h2>
+              Comment évolue notre consommation ?
+            </h2>
+            <p class="description">Quantités annuelles par habitant</p>
+          </div>
+
+          <div class="view-body">
+            <div class="controls">
+              <fieldset id="categories-consommation">
+                <legend>Catégories</legend>
+                <div class="category-options"></div>
+              </fieldset>
+              <fieldset class="period">
+                <legend>Période</legend>
+                <output id="conso-periode" for="conso-debut conso-fin"></output>
+                <div class="period-slider">
+                  <input type="range" id="conso-debut" />
+                  <input type="range" id="conso-fin"/>
+                </div>
+              </fieldset>
+            </div>
+            <figure>
+              <div id="graphique-consommation" class="chart"></div>
+              <figcaption>
+                <span>Choisissez une ou plusieurs catégories. Survolez un point pour lire sa valeur.</span>
+              </figcaption>
+            </figure>
+          </div>
+          <div id="infobulle" class="tooltip"></div>
+        </section>
+
+        <section
+          id="prix-revenus"
+          class="view"
+          data-message="Et côté budget ? Regardons comment les prix et les revenus accompagnent ces évolutions."
+        ></section>
+        <section
+          id="importations"
+          class="view"
+          data-message="Et les importations ? Peuvent-elles éclairer l'évolution des prix de la viande ?"
+        ></section>
+      </div>
+
+      <section id="rapport"></section>
+    </main>
+  </body>
+</html>

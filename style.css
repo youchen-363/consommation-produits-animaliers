@@ -1,0 +1,143 @@
+:root {
+  --ink: #25211f;
+  --muted: #69615d;
+  --accent: #86152a;
+  --border: #d7ccc5;
+  --paper: #faf8f6;
+  color-scheme: light;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--ink);
+  background: var(--paper);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+a {
+  color: var(--accent);
+  text-underline-offset: 4px;
+}
+
+input {
+  font: inherit;
+}
+
+main {
+  max-width: 1368px;
+  min-height: calc(100vh - 90px);
+  margin: auto;
+  padding: 36px 24px 48px;
+}
+
+.page-heading {
+  margin-bottom: 30px;
+}
+
+h1 {
+  margin: 0 0 10px;
+  font-size: 2.9rem;
+  line-height: 1.1;
+  font-weight: bold;
+  letter-spacing: -0.04em;
+}
+
+h1 span {
+  color: var(--accent);
+}
+
+h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  line-height: 1.2;
+  font-weight: bold;
+}
+
+.page-heading p {
+  margin: 0;
+  font-size: 1.125rem;
+}
+
+.page-story {
+  position: relative;
+  padding: 8px 0 4px 20px;
+}
+
+.page-story img {
+  position: absolute;
+  top: -2px;
+  left: 1px;
+  width: 24px;
+  height: 24px;
+  opacity: 0.25;
+  transform: rotate(180deg);
+  pointer-events: none;
+}
+
+.page-story p {
+  position: relative;
+  color: var(--muted);
+  font-style: italic;
+  line-height: 1.6;
+}
+
+.view-nav {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 22px;
+  border-bottom: 1px solid var(--border);
+  overflow-x: auto;
+}
+
+.view-nav a {
+  flex-shrink: 0;
+  padding: 12px 22px;
+  border-bottom: 4px solid transparent;
+  border-radius: 6px 6px 0 0;
+  color: var(--ink);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.view-nav a span {
+  margin-right: 8px;
+  font-variant-numeric: tabular-nums;
+}
+
+.view-nav a:hover {
+  background: #f2eeeb;
+}
+
+.view-nav a.active {
+  border-bottom-color: var(--accent);
+  color: var(--accent);
+  background: #f3e5e5;
+  font-weight: bold;
+}
+
+.view:not(:empty) {
+  border: 1px solid #c7b8ae;
+  border-radius: 12px;
+  background: white;
+}
+
+.view-heading {
+  margin: 0 24px;
+  padding: 24px 0 18px;
+  border-bottom: 1px solid var(--border);
+}
+
+.description {
+  margin: 5px 0 0;
+  color: var(--muted);
+}
+
+.view-body {
+  padding: 20px 24px 0;
+}
