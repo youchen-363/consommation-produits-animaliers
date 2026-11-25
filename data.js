@@ -80,26 +80,45 @@ async function chargerDonneesConsommation() {
 }
 
 async function chargerDonneesEcartPrixRevenus() {
-  return [
-    {
-        "annee": 2000,
-        "variation_prix_pct": 2,
-        "variation_revenu_nominal_uc_pct": 4,
-        "ecart_points": 2
-    },
-    {
-        "annee": 2001,
-        "variation_prix_pct": 6,
-        "variation_revenu_nominal_uc_pct": 4,
-        "ecart_points": -2.04
-    },
-    {
-        "annee": 2002,
-        "variation_prix_pct": 5,
-        "variation_revenu_nominal_uc_pct": 1,
-        "ecart_points": -1.04
+  // on charge les deux CSV en parallèle et convertit leurs valeurs en nombres
+  const [prix, revenus] = await Promise.all([
+    d3.csv("data/prix_viande_france.csv", (ligne) => {
+      return {
+        annee: Number(ligne.annee),
+        variation: Number(ligne.variation_prix_pct) 
+      };
+    }),
+    d3.csv("data/revenus_france.csv", (ligne) => {
+      return {
+        annee: Number(ligne.annee),
+        variation: Number(ligne.variation_revenu_nominal_uc_pct)
+      };
+    })
+  ]);
+
+  const donneesFinales = [];
+
+  for (const prixAnnee of prix) {
+    // Cherche le revenu de la même année sans se baser sur l'ordre des lignes
+    const revenuAnnee = revenus.find((revenu) => revenu.annee === prixAnnee.annee);
+
+    if (!revenuAnnee ||
+      !Number.isFinite(prixAnnee.variation) ||
+      !Number.isFinite(revenuAnnee.variation)) {
+      continue;
     }
-  ];
+
+    donneesFinales.push({
+      annee: prixAnnee.annee,
+      variation_prix_pct: prixAnnee.variation,
+      variation_revenu_nominal_uc_pct: revenuAnnee.variation,
+      ecart_points: prixAnnee.variation - revenuAnnee.variation
+    });
+  }
+
+  return donneesFinales.sort((anneePrecedente, anneeSuivante) => {
+    return anneePrecedente.annee - anneeSuivante.annee;
+  });
 }
 
 chargerDonneesEcartPrixRevenus().then((data) => console.log(data))
