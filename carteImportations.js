@@ -27,6 +27,7 @@ const initialiserCarteImportations = async () => {
   const conteneur = document.getElementById("carte-importations");
   const infobulle = document.getElementById("infobulle-importations");
   const curseurAnnee = document.getElementById("import-annee");
+  const sliderAnnee = document.getElementById("import-slider");
   const formatPart = new Intl.NumberFormat("fr-FR", { maximumFractionDigits: 1 });
 
   let viande = null;
@@ -206,7 +207,7 @@ const initialiserCarteImportations = async () => {
     return;
   }
 
-  curseurAnnee.addEventListener("input", () => {
+  sliderAnnee.addEventListener("changement-annee", () => {
     masquerInfobulle();
     dessinerCarte();
   });

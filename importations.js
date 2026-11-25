@@ -4,9 +4,6 @@ const initialiserImportations = async () => {
   const vue = document.getElementById("importations");
   const conteneur = document.getElementById("graphique-importations");
   const infobulle = document.getElementById("infobulle-importations");
-  const curseurAnnee = document.getElementById("import-annee");
-  const texteAnnee = document.getElementById("import-periode");
-  const barreAnnee = curseurAnnee.parentElement;
 
   // arrondit les taux à une décimale maximum, avec une virgule en français
   const formatTaux = new Intl.NumberFormat("fr-FR", {
@@ -33,8 +30,8 @@ const initialiserImportations = async () => {
   const premiereAnnee = annees[0];
   const derniereAnnee = annees[annees.length - 1];
 
-  // on affiche par défaut l'année la plus récente
-  let anneeChoisie = derniereAnnee;
+  // on affiche par défaut la première année disponible
+  let anneeChoisie = premiereAnnee;
 
   // on creer le SVG une seule fois et on garde une hauteur fixe comme dans consommation.js
   const hauteur = 350;
@@ -49,27 +46,12 @@ const initialiserImportations = async () => {
   // ========================
 
   function afficherInfobulle(evenement, observation) {
-    infobulle.textContent = `(${observation.annee}) ${observation.nomCategorie} : ${formatTaux.format(observation.taux)} % de la viande consommée est importée`;
+    infobulle.textContent = `(${observation.annee}) ${observation.nomCategorie} : ${formatTaux.format(observation.taux)}% de la viande consommée est importée`;
     infobulle.hidden = false;
 
     // empêche la bulle de sortir de la fenêtre, meme traitement que les autres graphes
     infobulle.style.left = Math.max(12, Math.min(evenement.clientX + 14, window.innerWidth - infobulle.offsetWidth - 12)) + "px";
     infobulle.style.top = Math.max(12, Math.min(evenement.clientY + 14, window.innerHeight - infobulle.offsetHeight - 12)) + "px";
-  }
-
-  // =============================
-  // === Affichage de l'année ===
-  // =============================
-
-  function actualiserAnnee() {
-    // les inputs renvoient des textes, Number les convertit en nombres
-    anneeChoisie = Number(curseurAnnee.value);
-    texteAnnee.value = String(anneeChoisie);
-
-    // un seul curseur : la partie colorée de la piste va du début jusqu'à la poignée
-    const dureeTotale = Math.max(1, derniereAnnee - premiereAnnee);
-    barreAnnee.style.setProperty("--debut", "0%");
-    barreAnnee.style.setProperty("--fin", 100 * (anneeChoisie - premiereAnnee) / dureeTotale + "%");
   }
 
   // =================================
@@ -170,35 +152,31 @@ const initialiserImportations = async () => {
       .attr("text-anchor", "middle")
       .attr("x", (observation) => x(observation.idCategorie) + x.bandwidth() / 2)
       .attr("y", (observation) => y(observation.taux) - 6)
-      .text((observation) => formatTaux.format(observation.taux) + " %");
+      .text((observation) => formatTaux.format(observation.taux) + "%");
   }
 
-  // ============================
-  // === Création du curseur ===
-  // ============================
-
-  // limite le curseur aux années disponibles, avec un pas d'un an
-  curseurAnnee.min = premiereAnnee;
-  curseurAnnee.max = derniereAnnee;
-  curseurAnnee.step = 1;
-  curseurAnnee.value = anneeChoisie;
-
-  // 'input' se déclenche pendant le déplacement du slider
-  curseurAnnee.addEventListener("input", () => {
-    actualiserAnnee();
-    dessinerImportations();
+  // Permet de controler l'année. Ce meme composant pourra être initialisé pour les autres graphes
+  const sliderAnnee = initialiserSliderAnnee(document.getElementById("import-slider"), {
+    premiereAnnee,
+    derniereAnnee,
+    onChange: (annee) => {
+      anneeChoisie = annee;
+      dessinerImportations();
+    }
   });
 
   // ==============================
   // === Mise a jour du graphe ===
   // ==============================
 
-  actualiserAnnee();
-
-  document.addEventListener("changement-vue", dessinerImportations);
+  document.addEventListener("changement-vue", () => {
+    if (vue.hidden) {
+      sliderAnnee.arreterLecture();
+    }
+    dessinerImportations();
+  });
   window.addEventListener("resize", dessinerImportations);
   window.addEventListener("scroll", masquerInfobulle);
-  dessinerImportations();
 };
 
 initialiserImportations();

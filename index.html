@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Viande en France</title>
     <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="slider-annee.css" />
     <link rel="stylesheet" href="header.css" />
     <link rel="stylesheet" href="consommation.css" />
     <link rel="stylesheet" href="prix-revenus.css" />
@@ -15,10 +16,11 @@
     <script src="vendor/legend.js" defer></script>
     <script src="data/importations.js" defer></script>
     <script src="data.js" defer></script>
+    <script src="slider-annee.js" defer></script>
     <script src="consommation.js" defer></script>
     <script src="prix-revenus.js" defer></script>
-    <script src="importations.js" defer></script>
     <script src="carteImportations.js" defer></script>
+    <script src="importations.js" defer></script>
     <script src="app.js" defer></script>
   </head>
   <body>
@@ -134,11 +136,30 @@
           </div>
           <div class="view-body">
             <div class="controls">
-              <fieldset class="period">
+              <fieldset id="import-slider" class="period slider-annee">
                 <legend>Année</legend>
-                <output id="import-periode" for="import-annee"></output>
-                <div class="period-slider">
-                  <input type="range" id="import-annee" title="Année affichée" />
+                <!-- pas de framework donc faudra malheureusement répéter ce code pour le 4eme graphe -->
+                <div class="annee-lecture">
+                  <button data-lecture type="button">Lecture</button>
+
+                  <button data-precedent class="annee-pas" type="button" disabled>
+                    <img src="assets/left-svgrepo-com.svg" alt="" />
+                  </button>
+
+                  <div class="annee-barre">
+                    <div class="annees-bornes">
+                      <span data-premiere-annee></span>
+                      <span data-derniere-annee></span>
+                    </div>
+                    <div class="period-slider">
+                      <input type="range" id="import-annee" />
+                      <output id="import-periode" for="import-annee"></output>
+                    </div>
+                  </div>
+
+                  <button data-suivant class="annee-pas" type="button" disabled>
+                    <img src="assets/right-svgrepo-com.svg" alt="" />
+                  </button>
                 </div>
               </fieldset>
             </div>

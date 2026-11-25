@@ -2,19 +2,8 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  justify-content: flex-end;
   gap: 18px 24px;
   margin-bottom: 18px;
-}
-
-#importations .period {
-  width: 210px;
-  max-width: 100%;
-}
-
-#importations .period-slider {
-  --debut: 0%;
-  --fin: 100%;
 }
 
 #importations #graphique-importations {
