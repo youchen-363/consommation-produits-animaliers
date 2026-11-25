@@ -78,3 +78,28 @@ async function chargerDonneesConsommation() {
 
   return { annees, consommation };
 }
+
+async function chargerDonneesEcartPrixRevenus() {
+  return [
+    {
+        "annee": 2000,
+        "variation_prix_pct": 2,
+        "variation_revenu_nominal_uc_pct": 4,
+        "ecart_points": 2
+    },
+    {
+        "annee": 2001,
+        "variation_prix_pct": 6,
+        "variation_revenu_nominal_uc_pct": 4,
+        "ecart_points": -2.04
+    },
+    {
+        "annee": 2002,
+        "variation_prix_pct": 5,
+        "variation_revenu_nominal_uc_pct": 1,
+        "ecart_points": -1.04
+    }
+  ];
+}
+
+chargerDonneesEcartPrixRevenus().then((data) => console.log(data))
