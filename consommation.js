@@ -1,10 +1,25 @@
 "use strict";
 
-const initialiserConsommation = () => {
-  const donnees = window.DONNEES;
-  const annees = donnees.annees;
+const initialiserConsommation = async () => {
   const conteneurGraphique = document.getElementById("graphique-consommation");
   const infobulle = document.getElementById("infobulle");
+
+  if (typeof d3 === "undefined") {
+    conteneurGraphique.textContent = "D3 n'a pas pu être chargé, vérifiez que le dossier vendor est bien présent.";
+    return;
+  }
+
+  // on attend la lecture du CSV avant de créer les filtres et le graphe
+  let donnees;
+  try {
+    donnees = await chargerDonneesConsommation();
+  } catch (erreur) {
+    conteneurGraphique.textContent = "Impossible de charger graph1.csv :(";
+    console.error(erreur);
+    return;
+  }
+
+  const annees = donnees.annees;
 
   const iconesParCategorie = {
     bovine: "cow-svgrepo-com",
@@ -242,8 +257,12 @@ const initialiserConsommation = () => {
       .range([hauteurGraphique, 0]);
 
     const dessinerAxes = () => {
-      // on limite le nombre de graduation (années affichées) si l'ecran est petit
-      const pasGraduations = largeurGraphique < 550 ? Math.max(1, Math.ceil((filtres.anneeFin - filtres.anneeDebut) / 4)) : 1;
+      // Garde environ 100 pixels entre les années pour pas en avoir trop à l'écran
+      const nombreGraduations = Math.max(1, Math.floor(largeurGraphique / 100));
+      const pasGraduations = Math.max(
+        1,
+        Math.ceil((filtres.anneeFin - filtres.anneeDebut) / nombreGraduations)
+      );
 
       const anneesGraduees = annees.filter((annee) => {
         return annee >= filtres.anneeDebut
@@ -338,16 +357,13 @@ const initialiserConsommation = () => {
     }
   }
 
-  if (typeof d3 === "undefined") {
-    alert("D3 n'a pas pu être chargé, vérifiez que le dossier vendor est bien présent.");
-  } else {
-    initialiserFiltreCategories();
-    initialiserFiltrePeriode();
+  initialiserFiltreCategories();
+  initialiserFiltrePeriode();
 
-    document.addEventListener("changement-vue", actualiserConsommation);
-    window.addEventListener("resize", actualiserConsommation);
-    window.addEventListener("scroll", masquerInfobulle);
-  }
+  document.addEventListener("changement-vue", actualiserConsommation);
+  window.addEventListener("resize", actualiserConsommation);
+  window.addEventListener("scroll", masquerInfobulle);
+  actualiserConsommation();
 };
 
 initialiserConsommation();
