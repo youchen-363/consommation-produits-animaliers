@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 64" preserveAspectRatio="none">
+  <path
+    d="M 10.5 .5 H 189.5 A 10 10 0 0 0 199.5 10.5 V 53.5 A 10 10 0 0 0 189.5 63.5 H 10.5 A 10 10 0 0 0 .5 53.5 V 10.5 A 10 10 0 0 0 10.5 .5 Z"
+    fill="#fffdfb"
+    stroke="#c7b8ae"
+    vector-effect="non-scaling-stroke"
+  />
+</svg>

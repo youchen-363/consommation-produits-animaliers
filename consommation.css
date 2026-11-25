@@ -1,0 +1,242 @@
+#consommation .controls {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 210px;
+  align-items: end;
+  gap: 24px;
+  margin-bottom: 22px;
+}
+
+#consommation fieldset {
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+#consommation legend {
+  margin-bottom: 9px;
+  padding: 0;
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+#consommation .category-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+
+#consommation .category-options label {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 58px;
+  padding: 11px 14px;
+  background: url("assets/etiquette.svg") center / 100% 100% no-repeat;
+  cursor: pointer;
+}
+
+#consommation .category-options  label:hover {
+  filter: brightness(0.95);
+}
+
+#consommation .category-text {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+  font-size: 0.875rem;
+  font-weight: bold;
+  white-space: nowrap;
+}
+
+#consommation .category-icon {
+  width: 30px;
+  height: 26px;
+  flex-shrink: 0;
+}
+
+#consommation input[type="checkbox"] {
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+  margin: 0;
+  accent-color: var(--accent);
+  cursor: pointer;
+}
+
+#consommation .series-key {
+  width: 40px;
+  border-top: 5px solid;
+}
+
+#consommation .period {
+  padding-left: 24px;
+  border-left: 1px solid var(--border);
+}
+
+#consommation .period output {
+  display: block;
+  font-size: 1rem;
+  font-variant-numeric: tabular-nums;
+}
+
+#consommation .period-slider {
+  --debut: 0%;
+  --fin: 100%;
+  position: relative;
+  height: 32px;
+}
+
+#consommation .period-slider::before {
+  content: "";
+  position: absolute;
+  top: 14px;
+  right: 10px;
+  left: 10px;
+  height: 4px;
+  background: linear-gradient(
+    to right,
+    var(--border) var(--debut),
+    var(--accent) var(--debut),
+    var(--accent) var(--fin),
+    var(--border) var(--fin)
+  );
+}
+
+#consommation .period-slider input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 32px;
+  margin: 0;
+  appearance: none;
+  background: transparent;
+  pointer-events: none;
+}
+
+/* si on fait pas ca les deux sliders se rentrent dedans */
+#consommation .period-slider.same-year input:first-child {
+  --decalage: -10px;
+}
+#consommation .period-slider.same-year input:last-child {
+  --decalage: 10px;
+}
+
+#consommation .period-slider input::-webkit-slider-runnable-track {
+  height: 4px;
+  background: transparent;
+}
+
+#consommation .period-slider input::-webkit-slider-thumb {
+  width: 20px;
+  height: 20px;
+  margin-top: -8px;
+  border: 1px solid var(--accent);
+  border-radius: 50%;
+  appearance: none;
+  background: white;
+  pointer-events: auto;
+  cursor: grab;
+  transform: translateX(var(--decalage, 0px));
+}
+
+#consommation .period-slider input::-moz-range-track {
+  height: 4px;
+  background: transparent;
+}
+
+#consommation .period-slider input::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border: 1px solid var(--accent);
+  border-radius: 50%;
+  background: white;
+  pointer-events: auto;
+  cursor: grab;
+  transform: translateX(var(--decalage, 0px));
+}
+
+
+#consommation figure {
+  margin: 0;
+}
+
+#consommation #graphique-consommation {
+  padding: 20px 30px;
+}
+
+#consommation .chart {
+  position: relative;
+  width: 100%;
+}
+
+#consommation .chart svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+#consommation .chart text {
+  fill: var(--muted);
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 14px;
+  font-variant-numeric: tabular-nums;
+}
+
+#consommation .chart .grid .domain {
+  display: none;
+}
+
+#consommation .chart .domain,
+#consommation .chart .tick line {
+  stroke: #a69f99;
+}
+#consommation .chart .grid .tick line {
+  stroke: #e6e1dd;
+}
+
+#consommation .chart .data-point {
+  cursor: pointer;
+}
+
+#consommation .chart .data-point:hover {
+  stroke: var(--ink);
+  stroke-width: 2;
+}
+
+#consommation figcaption {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 10px 24px;
+
+  margin-top: 18px;
+  padding: 16px 0;
+  font-size: 0.8rem;
+  font-style: italic;
+}
+
+#consommation .empty-chart {
+  margin: 0;
+  padding: 100px 20px;
+  color: var(--muted);
+  text-align: center;
+}
+
+#consommation .tooltip {
+  position: fixed;
+  max-width: min(360px, calc(100vw - 24px));
+  padding: 10px 14px;
+  border: 1px solid var(--border);
+  border-top: 3px solid var(--accent);
+  border-radius: 4px;
+  background: white;
+  font-size: 0.8rem;
+  pointer-events: none;
+
+  z-index: 20;
+}
