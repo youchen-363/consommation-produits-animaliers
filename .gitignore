@@ -428,6 +428,9 @@ FodyWeavers.xsd
 # Jupyter
 *.ipynb_checkpoints
 
-# resources file
+# Sources de données locales
+/resources/
+/*.xls
+/*.xlsx
 *.csv
 *.zip

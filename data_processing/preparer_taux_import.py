@@ -1,8 +1,9 @@
 import pandas as pd
 from pathlib import Path
 
-def traitement(resource: Path, data: Path) -> None: 
-    fichier = resource / 'BilansViandVolailOeufsHistoriques.xls'
+# Source du jeu de données: https://agreste.agriculture.gouv.fr/agreste-web/disaron/APPROVISIONNEMENT-SeriesLongues/detail/
+def traitement(path):
+    fichier = path / "BilansViandVolailOeufsHistoriques.xls"
     # feuille Excel -> nom de categorie dans le CSV
     feuilles_excel = {                      
         "HistoViandesBovines": "bovine",
@@ -29,11 +30,12 @@ def traitement(resource: Path, data: Path) -> None:
                 lignes.append({"annee": int(annee), "categorie": categorie,
                             "taux_importe": round(taux, 1)})
 
-    pd.DataFrame(lignes).to_csv(data / "taux_importation.csv", index=False)
+    pd.DataFrame(lignes).to_csv(path / "data" / "taux_importation.csv", index=False)
+
 
 def main():
-    PATH = Path("resources/graph3a")
-    traitement(PATH)
-    
+    path = Path(__file__).resolve().parents[1]
+    traitement(path)
+
 if __name__ == "__main__":
     main()

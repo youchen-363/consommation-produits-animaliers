@@ -133,7 +133,7 @@ async function chargerDonneesEcartPrixRevenus() {
 chargerDonneesEcartPrixRevenus().then((data) => console.log(data))
 
 async function chargerDonneesImportations() {
-  // Lit le CSV produit par graph3/preparer_taux_import.py et convertit l'année et le taux en nombres
+  // Lit le CSV produit par data_processing/preparer_taux_import.py et convertit l'année et le taux en nombres
   const lignesCsv = await d3.csv("data/taux_importation.csv", (ligne) => {
     return {
       annee: Number(ligne.annee),

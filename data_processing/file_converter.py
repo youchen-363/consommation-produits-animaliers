@@ -1,4 +1,5 @@
 from pathlib import Path
+from tempfile import TemporaryDirectory
 import pandas as pd 
 
 def print_file_structure(path: Path) -> None:
@@ -75,14 +76,13 @@ def save_json(path: Path, mappers: dict) -> None:
 def save_csv(df: pd.DataFrame, destination: Path, columns: list) -> None: 
     df.to_csv(destination, encoding='utf-8', decimal='.', index=False, columns=columns)    
     
-def process_merged_csv(resources_path: Path, data_path: Path) -> None:
+def process_merged_csv(source_path: Path, data_path: Path) -> None:
     csv_path = data_path / "importation.csv"
     mapper_path = data_path / "mapping_rules.json"
-    df = merge_files(resources_path)
+    df = merge_files(source_path)
     covert_month_to_int(df)
     mapper = mapping_rules(df)
     df = process(df)
-    delete_files(resources_path)
     save_json(mapper_path, mapper)
     save_csv(df, csv_path, columns=["annee", "pays", "type", "valeur"])
     print_file_structure(csv_path)
@@ -107,13 +107,18 @@ def format_json(path: Path) -> None:
         data = json.load(file)
     with open(path, "w") as file:
         json.dump(data, file, indent=4, ensure_ascii=False)
-    
+
+# Source du jeu de données (attention tres fat celui la): https://agreste.agriculture.gouv.fr/agreste-web/disaron/COMEXVIANDE/detail/
+def traitement(path):
+    with TemporaryDirectory() as dossier:
+        source_path = Path(dossier)
+        unzip_file(path / "FDS_COMEXVIANDE.zip", source_path)
+        process_merged_csv(source_path, path / "data")
+
+
 def main():
-    resource_path = Path("resources/graph3")
-    data_path = Path("data")
-    zip_file = resource_path / "FDS_COMEXVIANDE.zip"
-    unzip_file(zip_file, resource_path)
-    process_merged_csv(resource_path, data_path)
-    
+    path = Path(__file__).resolve().parents[1]
+    traitement(path)
+
 if __name__ == "__main__":
     main()
