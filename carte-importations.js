@@ -100,14 +100,17 @@ const initialiserCarteImportations = async () => {
   }
 
   async function chargerLignes() {
-    const donnees = window.IMPORTATIONS_PAYS;
-
-    return donnees.map((d) => ({
-      annee: d.annee,
-      pays: normaliser(d.pays),
-      type: normaliser(d.type),
-      valeur: d.valeur
-    }));
+    const mappingImport = await fetch('./data/mapping_rules.json');
+    const mappingRules = await mappingImport.json();
+    const donnees = await d3.csv("./data/importation.csv", (ligne) => {
+      return {
+        annee: +ligne.annee,
+        pays: normaliser(mappingRules.pays[ligne.pays]),
+        type: normaliser(mappingRules.type[ligne.type]),
+        valeur: +ligne.valeur
+      };
+    });
+    return donnees;
   }
 
   function calculerParts(annee) {
