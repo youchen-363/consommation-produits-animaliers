@@ -12,7 +12,7 @@ const COULEURS_VIANDES = {
 
 async function chargerDonneesConsommation() {
   // Lit le CSV et convertit les colonnes variable et value en nombres (doc ici https://d3js.org/d3-fetch#csv)
-  const lignesCsv = await d3.csv("./data/graph1.csv", (ligne) => {
+  const lignesCsv = await d3.csv("./data/consommation_habitant_an.csv", (ligne) => {
     return {
       categorie: ligne.categorie,
       annee: Number(ligne.variable),
@@ -21,7 +21,7 @@ async function chargerDonneesConsommation() {
   });
 
   if (lignesCsv.length === 0) {
-    throw new Error("Le fichier graph1.csv est vide :(");
+    throw new Error("Le fichier consommation_habitant_an.csv est vide :(");
   }
 
   // Récupère les années présentes dans le fichier, sans doublons et dans l'ordre
@@ -181,4 +181,22 @@ async function chargerDonneesImportations() {
   }
 
   return { annees, categories, observations };
+}
+
+async function chargerDonneesEmissions(indicateurs) {
+  return d3.csv("data/emissions_viande.csv", (ligne) => {
+    const mesures = {};
+    for (const indicateur of indicateurs) {
+      const texte = ligne[indicateur]?.trim();
+      const valeur = Number(texte);
+      if (texte && Number.isFinite(valeur)) {
+        mesures[indicateur] = valeur;
+      }
+    }
+    return { codePays: ligne.code_pays_m49, annee: Number(ligne.annee), categorie: ligne.categorie, mesures };
+  });
+}
+
+async function chargerFondCarteMonde() {
+  return window.WORLD ?? d3.json("https://cdn.jsdelivr.net/npm/world-atlas@2.0.2/countries-50m.json");
 }
