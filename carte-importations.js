@@ -1,7 +1,6 @@
 "use strict";
 
 const initialiserCarteImportations = async () => {
-  // Fait correspondre les noms du fond de carte aux libellés des données importées
   const PAYS = {
     "Germany": "Allemagne", 
     "Austria": "Autriche", 
@@ -149,12 +148,23 @@ const initialiserCarteImportations = async () => {
     }
 
     const width = 928;
-    const height = width / 2;
     const hauteurLegende = 40;
+    const margeCarte = 2;
 
     const projection = d3
-      .geoEqualEarth()
-      .fitExtent([[2, 2], [width - 2, height - 2]], { type: "Sphere" });
+      .geoProjection((lambda, phi) => {
+        const [, y] = d3.geoMercatorRaw(lambda, phi * 0.8);
+        return [lambda, y / 0.8];
+      })
+      .scale((width - 2 * margeCarte) / (2 * Math.PI))
+      .translate([width / 2, 0]);
+
+    const nord = projection([0, 80])[1];
+    const sud = projection([0, -60])[1];
+    const height = sud - nord + 2 * margeCarte;
+    projection
+      .translate([width / 2, margeCarte - nord])
+      .clipExtent([[margeCarte, margeCarte], [width - margeCarte, height - margeCarte]]);
     const path = d3.geoPath(projection);
 
     const maximum = d3.max(countries.features, partPays) || 1;
