@@ -5,12 +5,6 @@ const initialiserImportations = async () => {
   const conteneur = document.getElementById("graphique-importations");
   const infobulle = document.getElementById("infobulle-importations");
 
-  // arrondit les taux à une décimale maximum, avec une virgule en français
-  const formatTaux = new Intl.NumberFormat("fr-FR", {
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 1
-  });
-
   if (typeof d3 === "undefined") {
     conteneur.textContent = "D3 n'a pas pu être chargé, vérifiez que le dossier vendor est bien présent.";
     return;
@@ -46,7 +40,7 @@ const initialiserImportations = async () => {
   // ========================
 
   function afficherInfobulle(evenement, observation) {
-    infobulle.textContent = `(${observation.annee}) ${observation.nomCategorie} : ${formatTaux.format(observation.taux)}% de la viande consommée est importée`;
+    infobulle.textContent = `(${observation.annee}) ${observation.nomCategorie} : ${formaterNombreSelonValeur(observation.taux)}% de la viande consommée est importée`;
     infobulle.hidden = false;
 
     // empêche la bulle de sortir de la fenêtre, meme traitement que les autres graphes
@@ -104,7 +98,7 @@ const initialiserImportations = async () => {
       .call(d3
         .axisLeft(y)
         .ticks(5)
-        .tickFormat((valeur) => formatTaux.format(valeur) + " %")
+        .tickFormat((valeur) => formaterNombreSelonValeur(valeur) + " %")
       );
 
     // noms des viandes en bas, en version courte si la bande d'une viande fait moins de 90px de large
@@ -152,7 +146,7 @@ const initialiserImportations = async () => {
       .attr("text-anchor", "middle")
       .attr("x", (observation) => x(observation.idCategorie) + x.bandwidth() / 2)
       .attr("y", (observation) => y(observation.taux) - 6)
-      .text((observation) => formatTaux.format(observation.taux) + "%");
+      .text((observation) => formaterNombreSelonValeur(observation.taux) + "%");
   }
 
   // Permet de controler l'année. Ce meme composant pourra être initialisé pour les autres graphes

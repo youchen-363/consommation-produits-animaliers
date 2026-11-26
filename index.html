@@ -106,12 +106,14 @@
           <div class="view-heading">
             <h2>Les prix de la viande augmentent-ils plus vite que les revenus ?</h2>
           </div>
+
           <div class="view-body">
             <div class="controls">
               <ul id="legende-prix">
                 <li><span class="revenus"></span>Le revenu augmente plus vite</li>
                 <li><span class="prix"></span>Les prix augmentent plus vite</li>
               </ul>
+
               <fieldset class="period">
                 <legend>Période</legend>
                 <output id="prix-periode" for="prix-debut prix-fin"></output>
@@ -236,16 +238,62 @@
               <div id="graphique-emissions"></div>
               <figcaption>
                 <span class="emissions-sans-donnees">Valeur non renseignée</span>
-                Survolez un pays pour lire sa valeur.
+                Survolez un pays pour lire sa valeur. Cliquez dessus pour voir les détails.
               </figcaption>
             </figure>
 
+            <section id="details-emissions" aria-labelledby="titre-pays-emissions">
+              <h3 id="titre-pays-emissions">Détail par pays</h3>
+              <div class="emissions-graphiques">
+                <figure class="emissions-graphique">
+                  <h4 id="titre-evolution-emissions">Évolution de la catégorie bovine</h4>
+                  <p id="valeur-annee-emissions" hidden></p>
+                  <div class="emissions-evolution">
+                    <div id="courbe-emissions"></div>
+                    <p id="message-courbe-emissions">Sélectionnez un pays sur la carte.</p>
+                  </div>
+                </figure>
+                <figure class="emissions-graphique">
+                  <h4>Répartition par catégorie</h4>
+                  <p id="message-camembert-emissions">Sélectionnez un pays sur la carte.</p>
+                  <div id="detail-camembert-emissions" hidden>
+                    <p id="titre-repartition-emissions"></p>
+                    <div class="emissions-repartition">
+                      <div id="camembert-emissions" aria-hidden="true"></div>
+                      <ul id="legende-camembert-emissions" aria-label="Répartition par catégorie"></ul>
+                    </div>
+                    <p id="note-camembert-emissions" class="emissions-note" hidden></p>
+                  </div>
+                </figure>
+              </div>
+              <div class="emissions-equivalences">
+                <p id="base-equivalences-emissions" hidden></p>
+                <h4>C'est comme si...</h4>
+                <div id="comparaisons-emissions">
+                  <ul>
+                    <li>Vous rouliez <strong id="heures-voiture-emissions">? h</strong> en voiture à essence, soit <strong id="tours-voiture-emissions">? tours du monde</strong>.</li>
+                    <li>Vous passiez <strong id="heures-avion-emissions">? h</strong> en avion, soit <strong id="tours-avion-emissions">? tours du monde</strong>.</li>
+                    <li>Vous laissiez votre chauffage au gaz allumé pendant <strong id="heures-chauffage-emissions">? h</strong>.</li>
+                  </ul>
+                  <p class="emissions-note">
+                    Le calcul suppose une voiture à 80 km/h consommant 6 L/100 km, un avion à 540 km/h et un chauffage consommant 5 kWh de gaz par heure. Un tour du monde correspond ici à 40 000 km. Veuillez consulter le rapport pour les sources.
+                  </p>
+                </div>
+              </div>
+            </section>
           </div>
           <div id="infobulle-emissions" class="tooltip" hidden></div>
         </section>
       </div>
 
-      <section id="rapport"></section>
+      <section id="rapport">
+        <p>
+          pour le graphe 4, les facteurs d'émission de Nos Gestes Climat (ADEME) sont de
+          <a href="https://nosgestesclimat.fr/documentation/transport/voiture/thermique/empreinte-au-litre">2,7 kg CO₂e/L d'essence</a>,
+          <a href="https://nosgestesclimat.fr/documentation/transport/avion/moyen-et-long-courrier/empreinte-par-km/moyen-courrier">0,2 kg CO₂e/km par passager en avion</a> et
+          <a href="https://nosgestesclimat.fr/documentation/logement/chauffage/gaz/intensit%C3%A9-carbone">0,215 kg CO₂e/kWh PCS de gaz naturel</a>.
+        </p>
+      </section>
     </main>
   </body>
 </html>

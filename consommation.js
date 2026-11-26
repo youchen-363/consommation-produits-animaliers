@@ -142,7 +142,7 @@ const initialiserConsommation = async () => {
   // ========================
 
   function afficherInfobulle(evenement, observation) {
-    const quantiteFormatee = formatNombre.format(observation.quantite);
+    const quantiteFormatee = formaterNombreSelonValeur(observation.quantite);
     infobulle.textContent = `(${observation.annee}) ${observation.nomCategorie} : ${quantiteFormatee}kg équivalent-carcasse par habitant et par an`;
     infobulle.hidden = false;
 
@@ -281,7 +281,7 @@ const initialiserConsommation = async () => {
       // ajoute les quantités à gauche
       svgGraphique
         .append("g")
-        .call(d3.axisLeft(positionConsommation).ticks(5).tickFormat(d3.format("~g")));
+        .call(d3.axisLeft(positionConsommation).ticks(5).tickFormat((valeur) => formaterNombreSelonValeur(valeur)));
 
       // place l'axe des années en bas
       svgGraphique

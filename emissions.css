@@ -41,6 +41,22 @@
 
 #emissions .emissions-pays {
   stroke-width: 0.55;
+  cursor: pointer;
+}
+
+#emissions .emissions-pays:hover,
+#emissions .emissions-pays:focus-visible,
+#emissions .emissions-pays-actif {
+  stroke: #000;
+  stroke-width: 2.5;
+}
+
+#emissions .emissions-pays:focus-visible {
+  stroke-width: 3.5;
+}
+
+#emissions .emissions-pays:focus {
+  outline: none;
 }
 
 #emissions .emissions-frontieres {
@@ -59,4 +75,147 @@
   width: 20px;
   height: 12px;
   background: var(--emissions-sans-donnees);
+}
+
+#details-emissions {
+  margin-top: 24px;
+  padding: 20px 0 24px;
+  border-top: 1px solid var(--border);
+}
+
+#details-emissions h3 {
+  margin: 0 0 14px;
+  font-size: 1.375rem;
+}
+
+#details-emissions h4 {
+  margin: 0 0 4px;
+  font-size: 1rem;
+}
+
+#details-emissions p {
+  margin: 0 0 10px;
+}
+
+.emissions-graphiques {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+  gap: 24px;
+}
+
+.emissions-graphique + .emissions-graphique {
+  padding-left: 24px;
+  border-left: 1px solid var(--border);
+}
+
+.emissions-graphique p,
+.emissions-note {
+  color: var(--muted);
+  font-style: italic;
+}
+
+.emissions-graphique svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.emissions-evolution {
+  display: grid;
+}
+
+#courbe-emissions,
+#message-courbe-emissions {
+  grid-area: 1 / 1;
+}
+
+#details-emissions #message-courbe-emissions {
+  align-self: center;
+  margin: 0;
+  padding: 0 5% 6% 13%;
+  text-align: center;
+}
+
+#courbe-emissions .tick text {
+  fill: var(--muted);
+  font-size: 13px;
+}
+
+#courbe-emissions .domain,
+#courbe-emissions .tick line {
+  stroke: var(--border);
+}
+
+#courbe-emissions .emissions-grille .domain {
+  display: none;
+}
+
+.emissions-annee-repere {
+  stroke: var(--accent);
+  stroke-dasharray: 4 3;
+}
+
+.emissions-repartition {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 16px;
+}
+
+#camembert-emissions {
+  flex: 0 0 128px;
+}
+
+#legende-camembert-emissions {
+  flex: 1 1 148px;
+  display: grid;
+  gap: 2px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 0.875rem;
+}
+
+#legende-camembert-emissions li {
+  display: grid;
+  grid-template-columns: 12px minmax(0, 1fr);
+  align-items: center;
+  gap: 0 8px;
+  padding: 3px 8px;
+  border-radius: 4px;
+}
+
+.emissions-categorie-active {
+  background: var(--paper);
+}
+
+.emissions-pastille {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+}
+
+.emissions-valeur-categorie {
+  grid-column: 2;
+  color: var(--muted);
+}
+
+#details-emissions .emissions-note {
+  margin: 10px 0 0;
+}
+
+.emissions-equivalences {
+  margin-top: 24px;
+  padding: 12px 16px;
+  border-left: 3px solid var(--accent);
+  background: color-mix(in srgb, var(--accent) 8%, transparent);
+}
+
+.emissions-equivalences ul {
+  margin: 0;
+  padding-left: 22px;
+}
+
+#base-equivalences-emissions {
+  font-style: italic;
 }

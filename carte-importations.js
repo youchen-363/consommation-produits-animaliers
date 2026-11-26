@@ -70,11 +70,11 @@ const initialiserCarteImportations = async () => {
   const infobulle = document.getElementById("infobulle-importations");
   const curseurAnnee = document.getElementById("import-annee");
   const sliderAnnee = document.getElementById("import-slider");
-  const formatPart = new Intl.NumberFormat("fr-FR", { maximumFractionDigits: 1 });
 
   let viande = null;
   let monde;
   let lignes;
+  const donneesParViande = new Map();
 
   const normaliser = (texte) => String(texte ?? "")
     .normalize("NFD")
@@ -113,20 +113,40 @@ const initialiserCarteImportations = async () => {
     return donnees;
   }
 
-  function calculerParts(annee) {
-    const types = new Set(typesViande(viande));
-    const totaux = d3.rollup(
-      lignes.filter((d) => d.annee === annee && types.has(d.type)),
-      (groupe) => d3.sum(groupe, (d) => d.valeur),
-      (d) => d.pays
-    );
-    const totalMonde = totaux.get("monde");
+  function lirePartPays(parts, d) {
+    const nom = PAYS[d.properties?.name];
+    return nom ? parts?.get(normaliser(nom)) : undefined;
+  }
 
-    if (!totalMonde) {
-      return null;
+  function calculerDonneesViande(observation, paysCarte) {
+    const id = observation.idCategorie;
+    if (donneesParViande.has(id)) {
+      return donneesParViande.get(id);
     }
 
-    return new Map(Array.from(totaux, ([pays, valeur]) => [pays, (100 * valeur) / totalMonde]));
+    const types = new Set(typesViande(observation));
+    const totauxParAnnee = d3.rollup(
+      lignes.filter((d) => types.has(d.type)),
+      (groupe) => d3.sum(groupe, (d) => d.valeur),
+      (d) => d.annee,
+      (d) => d.pays
+    );
+    const partsParAnnee = new Map();
+
+    for (const [annee, totaux] of totauxParAnnee) {
+      const totalMonde = totaux.get("monde");
+      if (totalMonde) {
+        const parts = new Map(Array.from(totaux, ([pays, valeur]) => [pays, (100 * valeur) / totalMonde]));
+        partsParAnnee.set(annee, parts);
+      }
+    }
+
+    // Le maximum couvre toutes les années pour cette viande et les pays affichés pour qu'une même couleur 
+    // représente le même taux pendant la lecture et garder une cohérence entre chaque année
+    const maximum = d3.max(partsParAnnee.values(), (parts) => d3.max(paysCarte, (d) => lirePartPays(parts, d)));
+    const donnees = { partsParAnnee, maximum };
+    donneesParViande.set(id, donnees);
+    return donnees;
   }
 
   function masquerInfobulle() {
@@ -135,11 +155,13 @@ const initialiserCarteImportations = async () => {
 
   function dessinerCarte() {
     const annee = Number(curseurAnnee.value);
-    const parts = viande ? calculerParts(annee) : null;
-    const partPays = (d) => parts?.get(normaliser(PAYS[d.properties?.name]));
-
     const countries = topojson.feature(monde, monde.objects.countries);
     const countrymesh = topojson.mesh(monde, monde.objects.countries, (a, b) => a !== b);
+    const donnees = viande ? calculerDonneesViande(viande, countries.features) : null;
+    const parts = donnees?.partsParAnnee.get(annee);
+    const partPays = (d) => lirePartPays(parts, d);
+    const maximum = donnees?.maximum;
+    const afficherLegende = maximum !== undefined;
 
     const titre = document.createElement("p");
     if (!viande) {
@@ -170,12 +192,11 @@ const initialiserCarteImportations = async () => {
       .clipExtent([[margeCarte, margeCarte], [width - margeCarte, height - margeCarte]]);
     const path = d3.geoPath(projection);
 
-    const maximum = d3.max(countries.features, partPays) || 1;
-    const couleur = d3.scaleSequential([0, maximum], d3.interpolateYlOrRd);
+    const couleur = d3.scaleSequential([0, maximum || 1], d3.interpolateYlOrRd);
 
     const svg = d3
       .create("svg")
-      .attr("viewBox", [0, 0, width, height + (parts ? hauteurLegende : 0)])
+      .attr("viewBox", [0, 0, width, height + (afficherLegende ? hauteurLegende : 0)])
       .attr("role", "img")
       .attr("aria-label", titre.textContent)
       .attr("style", "display: block; width: 100%; height: auto;");
@@ -203,7 +224,7 @@ const initialiserCarteImportations = async () => {
         const part = partPays(d);
         infobulle.textContent = part === undefined
           ? `${nom} : pas de données`
-          : `${nom} : ${formatPart.format(part)} % des importations`;
+          : `${nom} : ${formaterNombreSelonValeur(part)} % des importations`;
         infobulle.hidden = false;
         infobulle.style.left = Math.max(12, Math.min(evenement.clientX + 14, window.innerWidth - infobulle.offsetWidth - 12)) + "px";
         infobulle.style.top = Math.max(12, Math.min(evenement.clientY + 14, window.innerHeight - infobulle.offsetHeight - 12)) + "px";
@@ -218,7 +239,7 @@ const initialiserCarteImportations = async () => {
       .attr("pointer-events", "none")
       .attr("d", path);
 
-    if (parts) {
+    if (afficherLegende) {
       const degrade = svg.append("defs").append("linearGradient").attr("id", "degrade-importations");
       degrade
         .selectAll("stop")
@@ -231,7 +252,7 @@ const initialiserCarteImportations = async () => {
       legende.append("rect").attr("width", 200).attr("height", 12).attr("fill", "url(#degrade-importations)");
       legende.append("text").attr("y", 28).attr("font-size", 13).text("0 %");
       legende.append("text").attr("x", 200).attr("y", 28).attr("font-size", 13).attr("text-anchor", "end")
-        .text(formatPart.format(maximum) + " %");
+        .text(formaterNombreSelonValeur(maximum) + " %");
     }
 
     conteneur.replaceChildren(titre, svg.node());

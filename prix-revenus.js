@@ -9,8 +9,7 @@ const initialiserPrixRevenus = async () => {
   const curseur = debut.parentElement;
 
   // formate les nombres avec une virgule et un signe (+/-)
-  // TODO: Ajouter ca dans un util
-  const formatNombre = new Intl.NumberFormat("fr-FR", { maximumFractionDigits: 2 });
+  const formatVariation = new Intl.NumberFormat("fr-FR", { maximumFractionDigits: 2 });
   const formatEcart = new Intl.NumberFormat("fr-FR", { maximumFractionDigits: 2, signDisplay: "exceptZero" });
 
    if (typeof d3 === "undefined") {
@@ -119,7 +118,7 @@ const initialiserPrixRevenus = async () => {
       .call(d3
         .axisBottom(x)
         .ticks(largeur < 500 ? 4 : 8)
-        .tickFormat((valeur) => formatNombre.format(valeur))
+        .tickFormat((valeur) => formaterNombreSelonValeur(valeur, formatVariation.format))
       );
 
     // les barres négatives partent à gauche et les positives à droite
@@ -150,7 +149,10 @@ const initialiserPrixRevenus = async () => {
       .attr("height", hauteurBarre)
       // tooltip au hover, meme traitement que consommation.js
       .on("pointerenter pointermove", (evenement, point) => {
-        infobulle.textContent = `(${point.annee}) Prix : ${formatNombre.format(point.variation_prix_pct)}%, Revenu par UC : ${formatNombre.format(point.variation_revenu_nominal_uc_pct)}%, Écart : ${formatEcart.format(point.ecart_points)}%`;
+        const prix = formaterNombreSelonValeur(point.variation_prix_pct, formatVariation.format);
+        const revenu = formaterNombreSelonValeur(point.variation_revenu_nominal_uc_pct, formatVariation.format);
+        const ecart = formaterNombreSelonValeur(point.ecart_points, formatEcart.format);
+        infobulle.textContent = `(${point.annee}) Prix : ${prix}%, Revenu par UC : ${revenu}%, Écart : ${ecart}%`;
         infobulle.hidden = false;
         infobulle.style.left = Math.max(12, Math.min(evenement.clientX + 14, window.innerWidth - infobulle.offsetWidth - 12)) + "px";
         infobulle.style.top = Math.max(12, Math.min(evenement.clientY + 14, window.innerHeight - infobulle.offsetHeight - 12)) + "px";
