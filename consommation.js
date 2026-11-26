@@ -14,7 +14,7 @@ const initialiserConsommation = async () => {
   try {
     donnees = await chargerDonneesConsommation();
   } catch (erreur) {
-    conteneurGraphique.textContent = "Impossible de charger graph1.csv :(";
+    conteneurGraphique.textContent = "Impossible de charger consommation_habitant_an.csv :(";
     console.error(erreur);
     return;
   }
@@ -34,12 +34,6 @@ const initialiserConsommation = async () => {
     anneeDebut: annees[0],
     anneeFin: annees[annees.length - 1]
   };
-
-  // arrondit les nombres à une décimale maximum, avec une virgule en français
-  const formatNombre = new Intl.NumberFormat("fr-FR", {
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 1
-  });
 
   // ============================
   // === Création des filtres ===

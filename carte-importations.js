@@ -1,27 +1,70 @@
 "use strict";
 
 const initialiserCarteImportations = async () => {
-  const URL_MONDE = "https://cdn.jsdelivr.net/npm/world-atlas@2.0.2/countries-50m.json";
-
+  // Fait correspondre les noms du fond de carte aux libellés des données importées
   const PAYS = {
-    "Germany": "Allemagne", "Austria": "Autriche", "Belgium": "Belgique", "Bulgaria": "Bulgarie",
-    "Cyprus": "Chypre", "Croatia": "Croatie", "Denmark": "Danemark",
-    "Spain": "Espagne (y compris Canaries)", "Estonia": "Estonie", "Finland": "Finlande",
-    "Greece": "Grèce", "Hungary": "Hongrie", "Ireland": "Irlande", "Italy": "Italie",
-    "Latvia": "Lettonie", "Lithuania": "Lituanie", "Luxembourg": "Luxembourg", "Malta": "Malte",
-    "Netherlands": "Pays-Bas", "Poland": "Pologne", "Portugal": "Portugal",
-    "Czechia": "République tchèque", "Czech Rep.": "République tchèque", "Romania": "Roumanie",
-    "Slovakia": "Slovaquie", "Slovenia": "Slovénie", "Sweden": "Suède", "Algeria": "Algerie",
-    "Saudi Arabia": "Arabie saoudite", "Argentina": "Argentine", "Australia": "Australie",
-    "Benin": "Benin", "Brazil": "Bresil", "Canada": "Canada", "Chile": "Chili", "Congo": "Congo",
-    "South Korea": "Coree Du Sud", "United States of America": "E.U.A.N", "Egypt": "Egypte",
-    "United Arab Emirates": "Emirats Arabes Unis", "Gabon": "Gabon", "Ghana": "Ghana",
-    "Hong Kong": "Hong-kong", "Japan": "Japon", "Kuwait": "Koweit", "Morocco": "Maroc",
-    "New Zealand": "Nouvelle-zelande", "Oman": "Oman", "Philippines": "Philippines",
-    "Qatar": "Qatar", "Dem. Rep. Congo": "Republique Democratique Du Congo",
-    "China": "Republique Populaire De Chine", "United Kingdom": "Royaume-uni", "Russia": "Russie",
-    "Singapore": "Singapour", "Switzerland": "Suisse", "Thailand": "Thailande", "Togo": "Togo",
-    "Ukraine": "Ukraine", "Uruguay": "Uruguay", "Vietnam": "Vietnam", "Yemen": "Yemen"
+    "Germany": "Allemagne", 
+    "Austria": "Autriche", 
+    "Belgium": "Belgique", 
+    "Bulgaria": "Bulgarie",
+    "Cyprus": "Chypre", 
+    "Croatia": "Croatie", 
+    "Denmark": "Danemark",
+    "Spain": "Espagne (y compris Canaries)", 
+    "Estonia": "Estonie", 
+    "Finland": "Finlande",
+    "Greece": "Grèce", 
+    "Hungary": "Hongrie", 
+    "Ireland": "Irlande", 
+    "Italy": "Italie",
+    "Latvia": "Lettonie", 
+    "Lithuania": "Lituanie", 
+    "Luxembourg": "Luxembourg", 
+    "Malta": "Malte",
+    "Netherlands": "Pays-Bas", 
+    "Poland": "Pologne", 
+    "Portugal": "Portugal",
+    "Czechia": "République tchèque", 
+    "Czech Rep.": "République tchèque", 
+    "Romania": "Roumanie",
+    "Slovakia": "Slovaquie", 
+    "Slovenia": "Slovénie", 
+    "Sweden": "Suède", 
+    "Algeria": "Algerie",
+    "Saudi Arabia": "Arabie saoudite", 
+    "Argentina": "Argentine", 
+    "Australia": "Australie",
+    "Benin": "Benin", 
+    "Brazil": "Bresil", 
+    "Canada": "Canada", 
+    "Chile": "Chili", 
+    "Congo": "Congo",
+    "South Korea": "Coree Du Sud",
+    "United States of America": "E.U.A.N",
+    "Egypt": "Egypte",
+    "United Arab Emirates": "Emirats Arabes Unis",
+    "Gabon": "Gabon", 
+    "Ghana": "Ghana",
+    "Hong Kong": "Hong-kong",
+    "Japan": "Japon",
+    "Kuwait": "Koweit",
+    "Morocco": "Maroc",
+    "New Zealand": "Nouvelle-zelande",
+    "Oman": "Oman",
+    "Philippines": "Philippines",
+    "Qatar": "Qatar",
+    "Dem. Rep. Congo": "Republique Democratique Du Congo",
+    "China": "Republique Populaire De Chine",
+    "United Kingdom": "Royaume-uni",
+    "Russia": "Russie",
+    "Singapore": "Singapour",
+    "Switzerland": "Suisse",
+    "Thailand": "Thailande",
+    "Togo": "Togo",
+    "Ukraine": "Ukraine",
+    "Uruguay": "Uruguay",
+    "Vietnam": "Vietnam",
+    "Yemen": "Yemen"
   };
 
   const conteneur = document.getElementById("carte-importations");
@@ -187,7 +230,7 @@ const initialiserCarteImportations = async () => {
   }
 
   try {
-    monde = window.WORLD ?? await d3.json(URL_MONDE);
+    monde = await chargerFondCarteMonde();
   } catch (erreur) {
     conteneur.textContent = "Impossible de charger le fond de carte.";
     console.error(erreur);

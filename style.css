@@ -155,6 +155,57 @@ h2 {
   font-weight: bold;
 }
 
+.category-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.category-options label {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 58px;
+  padding: 11px 14px;
+  background: url("assets/etiquette.svg") center / 100% 100% no-repeat;
+  cursor: pointer;
+}
+
+.category-options label:hover {
+  filter: brightness(0.95);
+}
+
+.category-options .category-text {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+  font-size: 0.875rem;
+  font-weight: bold;
+  white-space: nowrap;
+}
+
+.category-options .category-icon {
+  width: 30px;
+  height: 26px;
+  flex-shrink: 0;
+}
+
+.category-options input {
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+  margin: 0;
+  accent-color: var(--accent);
+  cursor: pointer;
+}
+
+.category-options .series-key {
+  width: 40px;
+  border-top: 5px solid;
+}
+
 .view .period output {
   display: block;
   font-variant-numeric: tabular-nums;

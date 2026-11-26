@@ -77,6 +77,12 @@
   --progression: 0;
 }
 
+/* restore le pointer event sur la barre pour pas avoir a cliquer sur la poignée uniquement */
+.slider-annee .period-slider input[type="range"] {
+  pointer-events: auto;
+  cursor: pointer;
+}
+
 .slider-annee output {
   position: absolute;
   top: 32px;
