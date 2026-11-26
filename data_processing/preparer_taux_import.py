@@ -7,32 +7,42 @@ taux_importe = 100 * IMPORTATIONS / UTILISATION INTERIEURE
 Usage : python3 preparer_taux_import.py chemin/vers/BilansViandVolailOeufsHistoriques.xls
 Sortie : taux_importation.csv  (colonnes : annee,categorie,taux_importe)
 """
-import sys
 import pandas as pd
+from pathlib import Path
 
-FICHIER = sys.argv[1]
-FEUILLES = {                       # feuille Excel -> nom de categorie dans le CSV
-    "HistoViandesBovines": "bovine",
-    "HistoViandesPorcines": "porcine",
-    "HistoViandesVolailles": "volaille",
-    "HistoViandesOvinesCaprines": "ovine",
-}
+def traitement(resource: Path, data: Path) -> None: 
+    fichier = resource / 'BilansViandVolailOeufsHistoriques.xls'
+    # feuille Excel -> nom de categorie dans le CSV
+    feuilles_excel = {                      
+        "HistoViandesBovines": "bovine",
+        "HistoViandesPorcines": "porcine",
+        "HistoViandesVolailles": "volaille",
+        "HistoViandesOvinesCaprines": "ovine",
+    }
 
-lignes = []
-for feuille, categorie in FEUILLES.items():
-    tableau = pd.read_excel(FICHIER, sheet_name=feuille, header=None)
-    libelles = tableau[2].astype(str).str.strip()          # colonne C = noms des lignes
+    lignes = []
+    for feuille, categorie in feuilles_excel.items():
+        tableau = pd.read_excel(fichier, sheet_name=feuille, header=None)
+        # colonne C = noms des lignes
+        libelles = tableau[2].astype(str).str.strip()          
 
-    annees = tableau[libelles == "Années"].iloc[0]
-    imports = tableau[libelles == "IMPORTATIONS"].iloc[0]
-    conso = tableau[libelles.str.startswith("UTILISATION")].iloc[0]
+        annees = tableau[libelles == "Années"].iloc[0]
+        imports = tableau[libelles == "IMPORTATIONS"].iloc[0]
+        conso = tableau[libelles.str.startswith("UTILISATION")].iloc[0]
+        
+        for col in tableau.columns[3:]:                        
+            # les annees commencent colonne D
+            annee = annees[col]
+            if pd.notna(annee) and 1999 <= annee <= 2024:
+                taux = 100 * imports[col] / conso[col]
+                lignes.append({"annee": int(annee), "categorie": categorie,
+                            "taux_importe": round(taux, 1)})
 
-    for col in tableau.columns[3:]:                        # les annees commencent colonne D
-        annee = annees[col]
-        if pd.notna(annee) and 1999 <= annee <= 2024:
-            taux = 100 * imports[col] / conso[col]
-            lignes.append({"annee": int(annee), "categorie": categorie,
-                           "taux_importe": round(taux, 1)})
+    pd.DataFrame(lignes).to_csv(data / "taux_importation.csv", index=False)
 
-pd.DataFrame(lignes).to_csv("taux_importation.csv", index=False)
-print(f"{len(lignes)} lignes ecrites dans taux_importation.csv")
+def main():
+    PATH = Path("resources/graph3a")
+    traitement(PATH)
+    
+if __name__ == "__main__":
+    main()
