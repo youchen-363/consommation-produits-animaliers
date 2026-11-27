@@ -36,6 +36,36 @@ main {
   padding: 36px 24px 48px;
 }
 
+#rapport {
+  max-width: 92ch;
+  margin-inline: auto;
+  line-height: 1.65;
+}
+
+#rapport h2 {
+  margin-top: 80px;
+  color: var(--accent)
+}
+
+#rapport li + li {
+  margin-top: 0.35rem;
+}
+
+#rapport figure {
+  margin: 1rem 0;
+}
+
+#rapport img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+#rapport figcaption {
+  margin-top: 0.5rem;
+  color: var(--muted);
+}
+
 .page-heading {
   margin-bottom: 30px;
 }
